@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/ToDoOfSorts.App/ToDoOfSorts.App.csproj" />
+    <Project Path="src/ToDoOfSorts.Core/ToDoOfSorts.Core.csproj" />
+    <Project Path="src/ToDoOfSorts.Infrastructure/ToDoOfSorts.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/ToDoOfSorts.Tests/ToDoOfSorts.Tests.csproj" />
+  </Folder>
+</Solution>

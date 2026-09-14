@@ -1,0 +1,158 @@
+<div id="stamp-it-demo" aria-label="Stamp completion concept">
+<style>
+#stamp-it-demo { --st-desk:light-dark(#dedbd0,#191a17); --st-paper:light-dark(#fff9e9,#eee5ce); --st-ink:#25271f; --st-red:#b83220; --st-ui:light-dark(#292d23,#f0eddf); --st-muted:light-dark(#626555,#b4b8a5); --st-rule:light-dark(#bcbfb0,#42463a); --st-accent:light-dark(#354d2e,#d7f27f); font-family:'Segoe UI',sans-serif; color:var(--st-ui); }
+#stamp-it-demo * { box-sizing:border-box; }
+#stamp-it-demo button { font:inherit; cursor:pointer; touch-action:manipulation; }
+#stamp-it-demo .st-app { max-width:410px; margin:0 auto; padding:24px 20px 18px; border-radius:25px; background:var(--st-desk); overflow:hidden; position:relative; }
+#stamp-it-demo .st-top { display:flex; justify-content:space-between; align-items:center; gap:12px; font:12px 'Courier New',monospace; letter-spacing:1px; }
+#stamp-it-demo .st-audio { color:var(--st-ui); border:1px solid var(--st-rule); background:transparent; border-radius:20px; padding:10px 12px; min-height:44px; font-size:11px; }
+#stamp-it-demo .st-heading { font-family:Impact,'Arial Narrow',sans-serif; font-size:58px; font-weight:400; line-height:.94; letter-spacing:-1px; margin:20px 0 14px; text-transform:uppercase; }
+#stamp-it-demo .st-heading span { display:block; }
+#stamp-it-demo .st-ledger { display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; font:12px 'Courier New',monospace; font-weight:600; margin-bottom:12px; }
+#stamp-it-demo .st-meter { display:flex; gap:5px; margin-bottom:23px; }
+#stamp-it-demo .st-meter span { height:7px; flex:1; background:var(--st-rule); transition:background .15s,transform .18s; }
+#stamp-it-demo .st-meter span.filled { background:var(--st-accent); }
+#stamp-it-demo .st-list { display:grid; gap:14px; }
+#stamp-it-demo .st-slip { background:var(--st-paper); color:var(--st-ink); min-height:142px; padding:17px 18px 0; position:relative; border-radius:2px; box-shadow:0 3px 0 light-dark(#c2beaf,#090b07),0 7px 10px light-dark(#302d1715,#00000035); transform:rotate(var(--st-tilt)); transform-origin:center; transition:transform .08s,box-shadow .08s; }
+#stamp-it-demo .st-slip::after { content:''; position:absolute; left:0; right:0; bottom:-4px; height:5px; background:var(--st-paper); clip-path:polygon(0 0,100% 0,100% 45%,96% 100%,92% 35%,88% 95%,83% 40%,78% 100%,73% 40%,68% 90%,63% 45%,58% 100%,53% 40%,48% 90%,43% 40%,38% 100%,33% 45%,28% 100%,23% 40%,18% 95%,13% 40%,8% 100%,3% 40%,0 90%); }
+#stamp-it-demo .st-slip.preparing { transform:rotate(0deg) scale(.975) translateY(2px); box-shadow:0 1px 0 light-dark(#c2beaf,#090b07); }
+#stamp-it-demo .st-taskhead { display:flex; justify-content:space-between; align-items:start; gap:10px; }
+#stamp-it-demo .st-title { font-size:19px; font-weight:700; line-height:1.2; letter-spacing:-.4px; margin:0; max-width:255px; overflow-wrap:anywhere; }
+#stamp-it-demo .st-num { font:11px 'Courier New',monospace; padding-top:4px; color:#686552; }
+#stamp-it-demo .st-meta { margin:7px 0 0; font:11px 'Courier New',monospace; text-transform:uppercase; letter-spacing:.6px; color:#686552; }
+#stamp-it-demo .st-actionline { margin-top:13px; border-top:1px dashed #bdb49a; height:54px; display:flex; align-items:center; justify-content:space-between; position:relative; gap:8px; }
+#stamp-it-demo .st-action { background:transparent; color:var(--st-red); border:0; font-family:Impact,'Arial Narrow',sans-serif; letter-spacing:.8px; font-size:23px; font-weight:400; padding:7px 0; min-height:48px; flex:1; text-align:left; }
+#stamp-it-demo .st-action:disabled { cursor:default; }
+#stamp-it-demo .st-value { font:12px 'Courier New',monospace; font-weight:600; }
+#stamp-it-demo .st-imprint { position:absolute; right:4px; bottom:3px; display:none; pointer-events:none; font-family:Impact,'Arial Narrow',sans-serif; color:var(--st-red); font-size:43px; line-height:1; letter-spacing:1px; border:4px solid currentColor; padding:0 9px 2px; transform:rotate(-9deg); opacity:.92; box-shadow:inset 0 0 0 2px var(--st-paper),inset 0 0 0 3px currentColor; }
+#stamp-it-demo .st-imprint::after,#stamp-it-demo .st-dayseal::after { content:''; position:absolute; inset:0; pointer-events:none; opacity:.7; background:repeating-linear-gradient(172deg,transparent 0 6px,var(--st-paper) 6px 7px,transparent 7px 13px); }
+#stamp-it-demo .st-slip.done .st-imprint { display:block; }
+#stamp-it-demo .st-slip.done .st-action { color:#686552; font:11px 'Courier New',monospace; letter-spacing:0; }
+#stamp-it-demo .st-slip.done .st-value { visibility:hidden; }
+#stamp-it-demo .st-slip.done .st-actionline { border-top-color:transparent; }
+#stamp-it-demo .st-imprint.landing { animation:st-slam .48s both; z-index:5; }
+@keyframes st-slam { 0% { opacity:0; transform:translate(-22px,-37px) rotate(-17deg) scale(2.9); } 18% { opacity:1; } 30% { transform:translate(0,0) rotate(-9deg) scale(.89); opacity:1; } 45% { transform:rotate(-9deg) scale(1.075); } 70%,100% { transform:rotate(-9deg) scale(1); opacity:.92; } }
+#stamp-it-demo .st-slip.hit { animation:st-paper-hit .34s .12s both; }
+@keyframes st-paper-hit { 0%,100% { transform:rotate(var(--st-tilt)); } 15% { transform:translateY(4px) rotate(0deg) scale(.975); } 35% { transform:translate(-2px,-1px) rotate(-.8deg); } 60% { transform:translateX(2px) rotate(.6deg); } }
+#stamp-it-demo .st-app.jolt { animation:st-jolt .23s linear; }
+@keyframes st-jolt { 0%,100% { transform:translate(0); } 25% { transform:translate(2px,3px); } 50% { transform:translate(-2px,-1px); } 75% { transform:translate(1px,0); } }
+#stamp-it-demo .st-flecks { position:absolute; inset:0; overflow:visible; pointer-events:none; z-index:4; }
+#stamp-it-demo .st-fleck { position:absolute; right:68px; bottom:26px; width:4px; height:3px; border-radius:40%; background:var(--st-red); animation:st-fleck .42s .13s both; }
+@keyframes st-fleck { 0% { opacity:0; transform:translate(0,0); } 10% { opacity:.8; } 100% { opacity:0; transform:translate(var(--st-x),var(--st-y)) rotate(90deg); } }
+#stamp-it-demo .st-xpkick { position:absolute; right:21px; bottom:50px; color:var(--st-red); font:bold 22px 'Courier New',monospace; pointer-events:none; z-index:6; animation:st-xpkick .65s .14s both; }
+@keyframes st-xpkick { 0% { opacity:0; transform:translateY(10px) scale(.6); } 20% { opacity:1; transform:translateY(-7px) scale(1.2); } 65% { opacity:1; } 100% { opacity:0; transform:translateY(-42px) scale(1); } }
+#stamp-it-demo .st-end { margin-top:23px; display:flex; justify-content:space-between; align-items:center; gap:12px; min-height:45px; font:12px 'Courier New',monospace; }
+#stamp-it-demo .st-undo { background:transparent; border:0; border-bottom:1px solid var(--st-rule); color:var(--st-ui); padding:12px 4px; min-height:44px; font:12px 'Courier New',monospace; }
+#stamp-it-demo .st-day { margin-top:24px; padding:19px 0 7px; text-align:center; border-top:1px dashed var(--st-rule); }
+#stamp-it-demo .st-dayseal { display:inline-block; position:relative; font:46px/.9 Impact,'Arial Narrow',sans-serif; letter-spacing:1px; color:var(--st-accent); border:5px double currentColor; padding:10px 16px; transform:rotate(-5deg); }
+#stamp-it-demo .st-dayseal::after { opacity:.25; background:repeating-linear-gradient(172deg,transparent 0 10px,var(--st-desk) 10px 11px); }
+#stamp-it-demo .st-day.arrival .st-dayseal { animation:st-seal .65s both; }
+@keyframes st-seal { 0% { opacity:0; transform:rotate(-13deg) scale(1.8); } 25% { opacity:1; transform:rotate(-5deg) scale(.94); } 45% { transform:rotate(-5deg) scale(1.03); } 100% { transform:rotate(-5deg) scale(1); } }
+#stamp-it-demo .st-day p { margin:20px 0 0; font:12px 'Courier New',monospace; line-height:1.6; }
+#stamp-it-demo[data-theme="Calm"] .st-imprint.landing { animation:st-gentle .3s both; }
+#stamp-it-demo[data-theme="Tactile"] .st-imprint.landing { animation:st-press .3s both; }
+@keyframes st-gentle { from { opacity:0; } to { opacity:.92; } }
+@keyframes st-press { 0% { opacity:0; transform:rotate(-9deg) scale(1.2); } 40% { opacity:.92; transform:rotate(-9deg) scale(.98); } 100% { opacity:.92; transform:rotate(-9deg) scale(1); } }
+#stamp-it-demo [hidden] { display:none !important; }
+@media(prefers-reduced-motion:reduce) { #stamp-it-demo *,#stamp-it-demo *::after { animation:none !important; transition:none !important; } #stamp-it-demo .st-flecks,#stamp-it-demo .st-xpkick { display:none; } }
+@media(max-width:350px) { #stamp-it-demo .st-app { padding:20px 14px 16px; } #stamp-it-demo .st-heading { font-size:51px; } #stamp-it-demo .st-slip { padding:15px 14px 0; } #stamp-it-demo .st-title { font-size:18px; } }
+</style>
+<div class="st-app">
+  <div class="st-top"><span>FRI / 11 SEPT</span><button class="st-audio" type="button" aria-pressed="false">SOUND OFF</button></div>
+  <h2 class="st-heading"><span>Consider</span><span>it done.</span></h2>
+  <div class="st-ledger"><span data-progress>0 / 3 STAMPED</span><span data-xp>0 XP</span><span data-run>4-DAY RUN</span></div>
+  <div class="st-meter" role="progressbar" aria-label="Completed commitments" aria-valuemin="0" aria-valuemax="3" aria-valuenow="0"><span></span><span></span><span></span></div>
+  <div class="st-list">
+    <article class="st-slip" style="--st-tilt:-.8deg" data-task="0"><div class="st-taskhead"><h3 class="st-title">Hit the gym</h3><span class="st-num">01</span></div><p class="st-meta">Training / 17:00</p><div class="st-actionline"><button type="button" class="st-action" aria-label="Stamp Hit the gym done">STAMP IT ↓</button><span class="st-value">+20 XP</span><span class="st-imprint" aria-hidden="true">DONE</span></div><div class="st-flecks" aria-hidden="true"></div></article>
+    <article class="st-slip" style="--st-tilt:.6deg" data-task="1"><div class="st-taskhead"><h3 class="st-title">Send 5 applications</h3><span class="st-num">02</span></div><p class="st-meta">Career / 11:00</p><div class="st-actionline"><button type="button" class="st-action" aria-label="Stamp Send 5 applications done">STAMP IT ↓</button><span class="st-value">+40 XP</span><span class="st-imprint" aria-hidden="true">DONE</span></div><div class="st-flecks" aria-hidden="true"></div></article>
+    <article class="st-slip" style="--st-tilt:-.5deg" data-task="2"><div class="st-taskhead"><h3 class="st-title">Build my project · 60m</h3><span class="st-num">03</span></div><p class="st-meta">Deep work / 14:00</p><div class="st-actionline"><button type="button" class="st-action" aria-label="Stamp Build my project done">STAMP IT ↓</button><span class="st-value">+40 XP</span><span class="st-imprint" aria-hidden="true">DONE</span></div><div class="st-flecks" aria-hidden="true"></div></article>
+  </div>
+  <div class="st-end"><span class="st-message" aria-live="polite">Make your mark.</span><button type="button" class="st-undo" hidden>Undo last stamp</button></div>
+  <div class="st-day" hidden><div class="st-dayseal">DAY<br>CLEARED.</div><p>Three promises. Three stamps.<br>Nothing left to prove today.</p></div>
+</div>
+<script>
+(() => {
+  const root=document.getElementById('stamp-it-demo');
+  const q=s=>root.querySelector(s);
+  const slips=[...root.querySelectorAll('.st-slip')];
+  const tasks=[{title:'Hit the gym',xp:20},{title:'Send 5 applications',xp:40},{title:'Build my project',xp:40}];
+  const done=[false,false,false];
+  const history=[];
+  const settings={theme:'Energetic'};
+  let audioOn=false,audioCtx=null,celebrated=false,pending=0,sealTimer=null;
+  const reduced=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function sound(final=false) {
+    if(!audioOn||!audioCtx) return;
+    try {
+      const now=audioCtx.currentTime;
+      const osc=audioCtx.createOscillator(),gain=audioCtx.createGain();
+      osc.type='sine'; osc.frequency.setValueAtTime(final?150:125,now); osc.frequency.exponentialRampToValueAtTime(42,now+.16);
+      gain.gain.setValueAtTime(settings.theme==='Calm'?.08:.23,now); gain.gain.exponentialRampToValueAtTime(.001,now+.2);
+      osc.connect(gain);gain.connect(audioCtx.destination);osc.start(now);osc.stop(now+.21);
+      const buffer=audioCtx.createBuffer(1,Math.floor(audioCtx.sampleRate*.09),audioCtx.sampleRate),data=buffer.getChannelData(0);
+      for(let i=0;i<data.length;i++) data[i]=(Math.random()*2-1)*Math.pow(1-i/data.length,3);
+      const noise=audioCtx.createBufferSource(),ng=audioCtx.createGain(),filter=audioCtx.createBiquadFilter();
+      noise.buffer=buffer;filter.type='lowpass';filter.frequency.value=1800;ng.gain.value=settings.theme==='Calm'?.03:.13;
+      noise.connect(filter);filter.connect(ng);ng.connect(audioCtx.destination);noise.start(now);noise.stop(now+.1);
+      if(final) [330,440,660].forEach((f,i)=>{ const o=audioCtx.createOscillator(),g=audioCtx.createGain(),t=now+.13+i*.07;o.type='sine';o.frequency.value=f;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.045,t+.015);g.gain.exponentialRampToValueAtTime(.001,t+.25);o.connect(g);g.connect(audioCtx.destination);o.start(t);o.stop(t+.26); });
+    }catch(e){ audioOn=false;q('.st-audio').textContent='SOUND UNAVAILABLE';q('.st-audio').setAttribute('aria-pressed','false'); }
+  }
+  q('.st-audio').addEventListener('click',async()=>{
+    if(!audioOn){try{const A=window.AudioContext||window.webkitAudioContext;if(!A)throw Error();audioCtx=audioCtx||new A();await audioCtx.resume();audioOn=audioCtx.state==='running';}catch(e){audioOn=false;}}
+    else audioOn=false;
+    q('.st-audio').textContent=audioOn?'SOUND ON':'SOUND OFF';q('.st-audio').setAttribute('aria-pressed',String(audioOn));
+  });
+  function update() {
+    const count=done.filter(Boolean).length;
+    q('[data-progress]').textContent=`${count} / 3 STAMPED`;
+    q('[data-xp]').textContent=`${tasks.reduce((n,t,i)=>n+(done[i]?t.xp:0),0)} XP`;
+    q('[data-run]').textContent=`${count===3?5:4}-DAY RUN`;
+    q('.st-meter').setAttribute('aria-valuenow',count);
+    root.querySelectorAll('.st-meter span').forEach((el,i)=>el.classList.toggle('filled',i<count));
+    q('.st-undo').hidden=history.length===0;
+    q('.st-undo').disabled=pending>0;
+    if(count<3){q('.st-day').hidden=true;clearTimeout(sealTimer);}
+  }
+  function flecks(slip) {
+    const layer=slip.querySelector('.st-flecks');layer.replaceChildren();
+    if(reduced()||settings.theme!=='Energetic')return;
+    for(let i=0;i<15;i++){const el=document.createElement('span'),a=i/15*Math.PI*2;el.className='st-fleck';el.style.setProperty('--st-x',`${Math.cos(a)*(45+i%4*15)}px`);el.style.setProperty('--st-y',`${Math.sin(a)*45}px`);layer.appendChild(el);}
+  }
+  slips.forEach((slip,i)=>{
+    const button=slip.querySelector('.st-action');
+    const release=()=>slip.classList.remove('preparing');
+    button.addEventListener('pointerdown',()=>{if(!done[i])slip.classList.add('preparing');});
+    ['pointerup','pointercancel','pointerleave','blur'].forEach(name=>button.addEventListener(name,release));
+    button.addEventListener('keydown',e=>{if((e.key===' '||e.key==='Enter')&&!done[i])slip.classList.add('preparing');});
+    button.addEventListener('keyup',release);
+    button.addEventListener('click',()=>{
+      if(done[i])return;
+      release();done[i]=true;history.push(i);pending++;
+      button.disabled=true;button.textContent='STAMPED.';button.setAttribute('aria-label',`${tasks[i].title}, stamped done`);
+      slip.classList.add('done');slip.querySelector('.st-imprint').classList.add('landing');
+      if(settings.theme==='Energetic')slip.classList.add('hit');
+      flecks(slip);
+      const kick=document.createElement('span');kick.className='st-xpkick';kick.textContent=`+${tasks[i].xp} XP`;kick.setAttribute('aria-hidden','true');slip.appendChild(kick);
+      q('.st-undo').disabled=true;
+      setTimeout(()=>{
+        sound();update();q('.st-message').textContent=`${tasks[i].title}. DONE.`;
+        if(!reduced()&&settings.theme==='Energetic'){q('.st-app').classList.remove('jolt');void q('.st-app').offsetWidth;q('.st-app').classList.add('jolt');}
+      },reduced()?0:140);
+      setTimeout(()=>{
+        pending--;slip.classList.remove('hit');slip.querySelector('.st-imprint').classList.remove('landing');kick.remove();slip.querySelector('.st-flecks').replaceChildren();update();
+        if(done.every(Boolean)&&pending===0){
+          sealTimer=setTimeout(()=>{if(!done.every(Boolean))return;q('.st-day').hidden=false;q('.st-message').textContent='Every single one. Finished.';if(!celebrated){q('.st-day').classList.add('arrival');sound(true);celebrated=true;}},150);
+        }
+      },reduced()?30:650);
+    });
+  });
+  q('.st-undo').addEventListener('click',()=>{
+    if(pending||!history.length)return;
+    const i=history.pop(),slip=slips[i],b=slip.querySelector('.st-action');done[i]=false;slip.classList.remove('done');b.disabled=false;b.textContent='STAMP IT ↓';b.setAttribute('aria-label',`Stamp ${tasks[i].title} done`);q('.st-message').textContent='Stamp undone.';q('.st-day').classList.remove('arrival');update();
+  });
+  function theme(){root.dataset.theme=settings.theme;root.style.setProperty('--st-red',settings.theme==='Calm'?'#48674f':settings.theme==='Tactile'?'#334a67':'#b83220');}
+  theme();update();
+  if(globalThis.Tweak){const t=new Tweak({container:root,onChange:theme});t.addSelect(settings,'theme',{label:'Stamp feel',options:['Energetic','Tactile','Calm']});}
+})();
+</script>
+</div>

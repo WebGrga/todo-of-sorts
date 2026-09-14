@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+  <Style TargetType="Label"><Setter Property="FontFamily" Value="Body" /></Style>
+  <Style TargetType="Button"><Setter Property="FontFamily" Value="BodyBold" /><Setter Property="MinimumHeightRequest" Value="48" /></Style>
+  <Style TargetType="Entry"><Setter Property="FontFamily" Value="Body" /><Setter Property="MinimumHeightRequest" Value="48" /></Style>
+  <Style TargetType="Picker"><Setter Property="FontFamily" Value="Body" /><Setter Property="MinimumHeightRequest" Value="48" /></Style>
+</ResourceDictionary>

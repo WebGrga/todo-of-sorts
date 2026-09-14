@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ToDoOfSorts.App.MainPage" Title="Today">
+  <Grid RowDefinitions="*,Auto" x:Name="Surface">
+    <ScrollView x:Name="PageScroll" VerticalScrollBarVisibility="Never">
+      <VerticalStackLayout x:Name="Body" Padding="20,8,20,24" Spacing="0" MaximumWidthRequest="450" HorizontalOptions="Fill" />
+    </ScrollView>
+    <Grid x:Name="NavigationBar" Grid.Row="1" ColumnDefinitions="*,*,*,44" Padding="20,0,16,4" ColumnSpacing="3" MaximumWidthRequest="450" HorizontalOptions="Fill">
+      <BoxView x:Name="NavRule" Grid.ColumnSpan="4" HeightRequest="1" VerticalOptions="Start" />
+      <Button x:Name="TodayTab" Text="TODAY" Clicked="OnToday" FontFamily="Mono" FontSize="10" LineBreakMode="WordWrap" CornerRadius="0" MinimumHeightRequest="48" Padding="0" />
+      <Button x:Name="ProgressTab" Grid.Column="1" Text="PROGRESS" Clicked="OnProgress" FontFamily="Mono" FontSize="10" LineBreakMode="WordWrap" CornerRadius="0" MinimumHeightRequest="48" Padding="0" />
+      <Button x:Name="AddTask" Grid.Column="2" Text="+ ADD TASK" Clicked="OnAdd" FontFamily="Mono" FontSize="10" LineBreakMode="WordWrap" CornerRadius="0" MinimumHeightRequest="48" Padding="0" />
+      <Button x:Name="MoreButton" Grid.Column="3" Text="···" Clicked="OnMore" FontFamily="BodyBold" FontSize="23" BackgroundColor="Transparent" MinimumHeightRequest="48" Padding="0" SemanticProperties.Description="Settings and day actions" />
+      <BoxView x:Name="TodayIndicator" HeightRequest="2" WidthRequest="34" HorizontalOptions="Center" VerticalOptions="End" />
+      <BoxView x:Name="RecordIndicator" Grid.Column="1" HeightRequest="2" WidthRequest="34" HorizontalOptions="Center" VerticalOptions="End" />
+    </Grid>
+    <Grid x:Name="WinOverlay" Grid.RowSpan="2" IsVisible="False" InputTransparent="True" Padding="25" />
+  </Grid>
+</ContentPage>

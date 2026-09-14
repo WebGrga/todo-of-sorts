@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks Condition="'$(MobileTarget)' == ''">net10.0-android;net10.0-ios</TargetFrameworks>
+    <TargetFrameworks Condition="'$(MobileTarget)' != ''">$(MobileTarget)</TargetFrameworks>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>ToDoOfSorts.App</RootNamespace>
+    <UseMaui>true</UseMaui>
+    <SingleProject>true</SingleProject>
+    <ApplicationTitle>ToDoOfSorts</ApplicationTitle>
+    <ApplicationId>app.todoofsorts.mobile</ApplicationId>
+    <ApplicationDisplayVersion>0.1.0</ApplicationDisplayVersion>
+    <ApplicationVersion>1</ApplicationVersion>
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">15.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">23.0</SupportedOSPlatformVersion>
+    <AndroidPackageFormats>apk</AndroidPackageFormats>
+    <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
+    <MauiVersion>10.0.101</MauiVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <MauiIcon Include="Resources/AppIcon/appicon.svg" Color="#DFDBCD" />
+    <MauiSplashScreen Include="Resources/Splash/splash.svg" Color="#DFDBCD" BaseSize="128,128" />
+    <MauiFont Include="Resources/Fonts/*.ttf" />
+    <MauiAsset Include="Resources/Raw/**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+    <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.0" />
+    <ProjectReference Include="../ToDoOfSorts.Core/ToDoOfSorts.Core.csproj" />
+    <ProjectReference Include="../ToDoOfSorts.Infrastructure/ToDoOfSorts.Infrastructure.csproj" />
+  </ItemGroup>
+</Project>

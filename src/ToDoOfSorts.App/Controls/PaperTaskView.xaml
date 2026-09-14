@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:ToDoOfSorts.App.Controls"
+             x:Class="ToDoOfSorts.App.Controls.PaperTaskView">
+  <Grid x:Name="Paper" MinimumHeightRequest="142" IsClippedToBounds="False">
+    <local:PaperSurface x:Name="Stock" />
+    <Grid Padding="18,17,18,17" RowDefinitions="Auto,Auto" RowSpacing="13">
+      <VerticalStackLayout Spacing="7" MinimumHeightRequest="49">
+        <VerticalStackLayout.GestureRecognizers><TapGestureRecognizer Tapped="OnDetails" /></VerticalStackLayout.GestureRecognizers>
+        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+          <Label x:Name="TaskTitle" FontFamily="BodyBold" FontSize="19" CharacterSpacing="-.4" TextColor="#25271F" />
+          <Label x:Name="TaskNumber" Grid.Column="1" FontFamily="Mono" FontSize="11" TextColor="#686552" Margin="0,4,0,0" />
+        </Grid>
+        <Label x:Name="Meta" FontFamily="Mono" FontSize="10" CharacterSpacing=".3" TextColor="#686552" />
+      </VerticalStackLayout>
+      <Grid Grid.Row="1" ColumnDefinitions="*,Auto" MinimumHeightRequest="60">
+        <local:DashedRule x:Name="Perforation" HeightRequest="1" VerticalOptions="Start" Grid.ColumnSpan="2" />
+        <Button x:Name="StampButton" Text="STAMP IT ↓" FontFamily="Stamp" FontSize="23" CharacterSpacing=".8" HorizontalOptions="Start" LineBreakMode="WordWrap" Padding="0" BackgroundColor="Transparent" MinimumHeightRequest="48" VerticalOptions="Center" Pressed="OnPressed" Released="OnReleased" Clicked="OnStamp" />
+        <Label x:Name="Points" Grid.Column="1" FontFamily="Mono" FontSize="12" TextColor="#25271F" VerticalOptions="Center" />
+        <local:InkStamp x:Name="Imprint" Grid.ColumnSpan="2" HorizontalOptions="End" VerticalOptions="Center" Margin="0,0,2,0" IsVisible="False" />
+      </Grid>
+    </Grid>
+    <local:InkBurst x:Name="Flecks" />
+    <Label x:Name="FlyingXp" HorizontalOptions="End" VerticalOptions="Center" Margin="0,0,18,0" FontFamily="Mono" FontSize="22" Opacity="0" InputTransparent="True" />
+  </Grid>
+</ContentView>

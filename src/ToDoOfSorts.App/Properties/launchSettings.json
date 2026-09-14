@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ToDoOfSorts": {
+      "commandName": "Project",
+      "nativeDebugging": false
+    }
+  }
+}
